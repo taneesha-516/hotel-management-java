@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <nav class="menu">
+                <button class="menu-item active" data-page="dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </button>
+                <button class="menu-item" data-page="rooms">
+                    <span class="icon">🛏️</span> Rooms
+                </button>
+                <button class="menu-item" data-page="customers">
+                    <span class="icon">👥</span> Customers
+                </button>
+                <button class="menu-item" data-page="bookings">
+                    <span class="icon">📅</span> Bookings
+                </button>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active" style="display: block;">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🛏️</div>
+                        <div class="stat-info">
+                            <h3>Total Rooms</h3>
+                            <p id="totalRooms" class="stat-number">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3>Available</h3>
+                            <p id="availableRooms" class="stat-number">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3>Total Customers</h3>
+                            <p id="totalCustomers" class="stat-number">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-info">
+                            <h3>Active Bookings</h3>
+                            <p id="activeBookings" class="stat-number">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="switchPage('rooms')">Add New Room</button>
+                        <button class="btn btn-primary" onclick="switchPage('customers')">Register Customer</button>
+                        <button class="btn btn-primary" onclick="switchPage('bookings')">Make Booking</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rooms Page -->
+            <div id="rooms" class="page" style="display: none;">
+                <h2>Room Management</h2>
+                
+                <div class="form-section">
+                    <h3>Add New Room</h3>
+                    <form id="roomForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="text" id="roomNumber" placeholder="e.g., 101" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomType">Room Type</label>
+                            <select id="roomType" required>
+                                <option value="">Select Type</option>
+                                <option value="Single">Single</option>
+                                <option value="Double">Double</option>
+                                <option value="Deluxe">Deluxe</option>
+                                <option value="Suite">Suite</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="roomPrice">Price per Day (Rs.)</label>
+                            <input type="number" id="roomPrice" placeholder="2000" min="0" step="100" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Room</button>
+                    </form>
+                </div>
+
+                <div class="table-section">
+                    <h3>All Rooms</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All Rooms</button>
+                        <button class="filter-btn" data-filter="available">Available</button>
+                        <button class="filter-btn" data-filter="booked">Booked</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="roomsTable">
+                            <thead>
+                                <tr>
+                                    <th>Room No.</th>
+                                    <th>Type</th>
+                                    <th>Price/Day</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roomTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customers Page -->
+            <div id="customers" class="page" style="display: none;">
+                <h2>Customer Management</h2>
+                
+                <div class="form-section">
+                    <h3>Register New Customer</h3>
+                    <form id="customerForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="customerId">Customer ID</label>
+                            <input type="text" id="customerId" placeholder="e.g., C001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerName">Full Name</label>
+                            <input type="text" id="customerName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerContact">Contact Number</label>
+                            <input type="tel" id="customerContact" placeholder="+91 XXXXXXXXXX" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Register Customer</button>
+                    </form>
+                </div>
+
+                <div class="table-section">
+                    <h3>All Customers</h3>
+                    <div class="search-box">
+                        <input type="text" id="customerSearch" placeholder="Search by name or ID...">
+                    </div>
+                    <div class="table-responsive">
+                        <table id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Bookings</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Page -->
+            <div id="bookings" class="page" style="display: none;">
+                <h2>Booking Management</h2>
+                
+                <div class="form-section">
+                    <h3>Make New Booking</h3>
+                    <form id="bookingForm" class="form-grid">
+                        <div class="form-group">
+                            <label for="bookingCustomerId">Customer ID</label>
+                            <input type="text" id="bookingCustomerId" placeholder="e.g., C001" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingRoom">Room Number</label>
+                            <select id="bookingRoom" required>
+                                <option value="">Select Room</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingDays">Number of Days</label>
+                            <input type="number" id="bookingDays" placeholder="3" min="1" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Book Room</button>
+                    </form>
+                </div>
+
+                <div class="table-section">
+                    <h3>All Bookings</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="bookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Room</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Cost</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for confirmations -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">Confirm Action</h3>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="modalConfirm">Confirm</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert notification -->
+    <div id="alert" class="alert">
+        <span id="alertMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
